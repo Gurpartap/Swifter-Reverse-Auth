@@ -55,12 +55,12 @@ Here's how I use it with [ReactiveCocoa](https://github.com/ReactiveCocoa/Reacti
 ```Swift
 let twitterAccount = ... // An ACAccount instance obtained from ACAccountStore.
 TwitterAPI.sharedInstance.requestReverseAuthenticationSignalForAccount(twitterAccount)
-.deliverOn(RACScheduler.mainThreadScheduler())
-.subscribeNext({ (accessToken: AnyObject!) -> Void in
-    println("accessToken: \(accessToken)")
-}, error: { (error) -> Void in
-    println("error: \(error)")
-})
+    .deliverOn(RACScheduler.mainThreadScheduler())
+    .subscribeNext({ (accessToken: AnyObject!) -> Void in
+        println("accessToken: \(accessToken)")
+    }, error: { (error) -> Void in
+        println("error: \(error)")
+    })
 ```
 
 ```Swift
