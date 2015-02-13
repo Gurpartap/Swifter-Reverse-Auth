@@ -48,6 +48,8 @@ swifter.postReverseOAuthTokenRequest({ (authenticationHeader) -> Void in
 })
 ```
 
+##### ReactiveCocoa
+
 Here's how I use it with [ReactiveCocoa](https://github.com/ReactiveCocoa/ReactiveCocoa):
 
 ```Swift
@@ -65,7 +67,7 @@ TwitterAPI.sharedInstance.requestReverseAuthenticationSignalForAccount(twitterAc
 class TwitterAPI {
     let swifter: Swifter
 
-    init() ... // set Swifter with consumer keys
+    init() ... // Setup Swifter with consumer keys
 
     func requestReverseAuthenticationSignalForAccount(account: ACAccount) -> RACSignal {
         return RACSignal.createSignal { subscriber -> RACDisposable! in
