@@ -48,6 +48,53 @@ swifter.postReverseOAuthTokenRequest({ (authenticationHeader) -> Void in
 })
 ```
 
+Here's how I use it with [ReactiveCocoa](https://github.com/ReactiveCocoa/ReactiveCocoa):
+
+```Swift
+let twitterAccount = ... // An ACAccount instance obtained from ACAccountStore.
+TwitterAPI.sharedInstance.requestReverseAuthenticationSignalForAccount(twitterAccount)
+.deliverOn(RACScheduler.mainThreadScheduler())
+.subscribeNext({ (accessToken: AnyObject!) -> Void in
+    println("accessToken: \(accessToken)")
+}, error: { (error) -> Void in
+    println("error: \(error)")
+})
+```
+
+```Swift
+class TwitterAPI {
+    let swifter: Swifter
+
+    init() ... // set Swifter with consumer keys
+
+    func requestReverseAuthenticationSignalForAccount(account: ACAccount) -> RACSignal {
+        return RACSignal.createSignal { subscriber -> RACDisposable! in
+            self.swifter.postReverseOAuthTokenRequest({ (authenticationHeader) -> Void in
+                let swifterXAuth = Swifter(account: account)
+                swifterXAuth.getAccountVerifyCredentials(false, skipStatus: false, success: { (myInfo) -> Void in
+                    swifterXAuth.postReverseAuthAccessTokenWithAuthenticationHeader(authenticationHeader, success: { (accessToken, response) -> Void in
+                        // TODO: Ascertain that accessToken is not .None
+                        subscriber.sendNext([ "key": accessToken!.key, "secret": accessToken!.secret ])
+                        subscriber.sendCompleted()
+                        
+                    }, failure: { (error) -> Void in
+                        subscriber.sendError(error)
+                    })
+                    
+                }, failure: { (error) -> Void in
+                    subscriber.sendError(error)
+                })
+                
+                
+            }, failure: { (error) -> Void in
+                subscriber.sendError(error)
+            })
+            return nil
+        }
+    }
+}
+```
+
 ### Creator
 
 * [Gurpartap Singh](http://gurpartap.com/) ([@Gurpartap](http://twitter.com/Gurpartap))
