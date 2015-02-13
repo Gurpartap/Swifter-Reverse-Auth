@@ -19,40 +19,6 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-//
-// Usage:
-//
-// let TWITTER_CONSUMER_KEY = ""
-// let TWITTER_CONSUMER_SECRET_KEY = ""
-// 
-// let twitterAccount = ... // An ACAccount instance.
-// let swifter = Swifter(consumerKey: TWITTER_CONSUMER_KEY, consumerSecret: TWITTER_CONSUMER_SECRET_KEY)
-//
-// // Step 1
-// swifter.postReverseOAuthTokenRequest({ (authenticationHeader) -> Void in
-//     let swifterAPIOS = Swifter(account: twitterAccount)
-//
-//     // Step 2
-//     swifterAPIOS.getAccountVerifyCredentials(false, skipStatus: false, success: { (myInfo) -> Void in
-//
-//         // Step 3
-//         swifterAPIOS.postReverseAuthAccessTokenWithAuthenticationHeader(authenticationHeader, success: { (accessToken, response) -> Void in
-//
-//             // This is what you're looking for.
-//             println("key: \(accessToken?.key) secret: \(accessToken?.secret)")
-//
-//         }, failure: { (error) -> Void in
-//             println("postReverseAuthAccessTokenWithAuthenticationHeader error: \(error)")
-//         })
-//
-//     }, failure: { (error) -> Void in
-//         println("getAccountVerifyCredentials error: \(error)")
-//     })
-//
-//
-//     }, failure: { (error) -> Void in
-//         println("postReverseOAuthTokenRequest error: \(error)")
-// })
 
 import Foundation
 

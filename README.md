@@ -1,8 +1,10 @@
 ## Twitter Reverse Auth extension for [Swifter](https://github.com/mattdonnelly/Swifter)
 
-Swifter provides comprehensive interaction with Twitter API. Twitter's reverse authentication (`x_auth_mode = reverse_auth`) is useful when the application needs external access to Twitter API on the user's behalf.
+Swifter provides comprehensive interaction with Twitter API but lacks the ability to request OAuth access token and secret (when using `ACAccount`) without user intervention. Twitter provides the reverse authentication mechanism (`x_auth_mode = reverse_auth`) for this. Reverse authentication eliminates the need to repeat authorization request to the user (via regular OAuth workflow), after they have already authorized your app to use Twitter accounts serviced by iOS (or OS X).
 
-Swifter-Reverse-Auth works on iOS as well as OS X.
+You may not need to implement reverse auth if you are only going to use Twitter API within the app itself. Having access to OAuth access token and secret is useful when the application needs query Twitter API on the user's behalf on a third party machine, like a server.
+
+If you are looking to implement this using [STTwitter](https://github.com/nst/STTwitter) in a Swift project, [this gist](https://gist.github.com/Gurpartap/557660f1f3d09cbf420e) is for you.
 
 ##### Usage
 
@@ -35,8 +37,8 @@ swifter.postReverseOAuthTokenRequest({ (authenticationHeader) -> Void in
     })
 
 
-    }, failure: { (error) -> Void in
-        println("postReverseOAuthTokenRequest error: \(error)")
+}, failure: { (error) -> Void in
+    println("postReverseOAuthTokenRequest error: \(error)")
 })
 ```
 
