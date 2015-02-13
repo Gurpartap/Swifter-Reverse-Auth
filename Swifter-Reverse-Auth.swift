@@ -1,6 +1,6 @@
 // Swifter-Reverse-Auth.swift
 //
-// Copyright (c) 2015 Gurpartap Singh (http://github,com/Gurpartap)
+// Copyright (c) 2015 Gurpartap Singh (http://github.com/Gurpartap)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -38,14 +38,15 @@
 //         // Step 3
 //         swifterAPIOS.postReverseAuthAccessTokenWithAuthenticationHeader(authenticationHeader, success: { (accessToken, response) -> Void in
 //
+//             // This is what you're looking for.
 //             println("key: \(accessToken?.key) secret: \(accessToken?.secret)")
 //
-//             }, failure: { (error) -> Void in
-//                 println("postReverseAuthAccessTokenWithAuthenticationHeader error: \(error)")
+//         }, failure: { (error) -> Void in
+//             println("postReverseAuthAccessTokenWithAuthenticationHeader error: \(error)")
 //         })
 //
-//         }, failure: { (error) -> Void in
-//             println("getAccountVerifyCredentials error: \(error)")
+//     }, failure: { (error) -> Void in
+//         println("getAccountVerifyCredentials error: \(error)")
 //     })
 //
 //

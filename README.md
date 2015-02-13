@@ -23,14 +23,15 @@ swifter.postReverseOAuthTokenRequest({ (authenticationHeader) -> Void in
         // Step 3
         swifterAPIOS.postReverseAuthAccessTokenWithAuthenticationHeader(authenticationHeader, success: { (accessToken, response) -> Void in
 
+        	// This is what you're looking for.
             println("key: \(accessToken?.key) secret: \(accessToken?.secret)")
 
-            }, failure: { (error) -> Void in
-                println("postReverseAuthAccessTokenWithAuthenticationHeader error: \(error)")
+        }, failure: { (error) -> Void in
+            println("postReverseAuthAccessTokenWithAuthenticationHeader error: \(error)")
         })
 
-        }, failure: { (error) -> Void in
-            println("getAccountVerifyCredentials error: \(error)")
+    }, failure: { (error) -> Void in
+        println("getAccountVerifyCredentials error: \(error)")
     })
 
 
