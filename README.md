@@ -6,7 +6,13 @@ You may not need to implement reverse auth if you are only going to use Twitter 
 
 If you are looking to implement this using [STTwitter](https://github.com/nst/STTwitter) in a Swift project, [this gist](https://gist.github.com/Gurpartap/557660f1f3d09cbf420e) is for you.
 
-##### Usage
+### Troubleshooting
+
+##### xAuth
+
+Twitter restricts the xAuth authentication process to xAuth-enabled consumer tokens only. So, if you get an error like `The consumer tokens are probably not xAuth enabled.` while accessing `https://api.twitter.com/oauth/access_token`, see Twitter's website [https://dev.twitter.com/docs/oauth/xauth](https://dev.twitter.com/docs/oauth/xauth) and ask Twitter to enable the xAuth authentication process for your consumer tokens.
+
+### Usage
 
 ```Swift
 let TWITTER_CONSUMER_KEY = ""
@@ -42,12 +48,12 @@ swifter.postReverseOAuthTokenRequest({ (authenticationHeader) -> Void in
 })
 ```
 
-##### Creator
+### Creator
 
 * [Gurpartap Singh](http://gurpartap.com/) ([@Gurpartap](http://twitter.com/Gurpartap))
 
 Inspired by [Nicolas Seriot](https://github.com/nst)'s work on reverse auth in [STTwitter](https://github.com/nst/STTwitter).
 
-##### License
+### License
 
 Swifter-Reverse-Auth is licensed under MIT license. See LICENSE for details.
