@@ -23,13 +23,13 @@ let swifter = Swifter(consumerKey: TWITTER_CONSUMER_KEY, consumerSecret: TWITTER
 
 // Step 1
 swifter.postReverseOAuthTokenRequest({ (authenticationHeader) -> Void in
-    let swifterAPIOS = Swifter(account: twitterAccount)
+    let swifterOSAccount = Swifter(account: twitterAccount)
 
     // Step 2
-    swifterAPIOS.getAccountVerifyCredentials(false, skipStatus: false, success: { (myInfo) -> Void in
+    swifterOSAccount.getAccountVerifyCredentials(false, skipStatus: false, success: { (myInfo) -> Void in
 
         // Step 3
-        swifterAPIOS.postReverseAuthAccessTokenWithAuthenticationHeader(authenticationHeader, success: { (accessToken, response) -> Void in
+        swifterOSAccount.postReverseAuthAccessTokenWithAuthenticationHeader(authenticationHeader, success: { (accessToken, response) -> Void in
 
         	// This is what you're looking for.
             println("key: \(accessToken?.key) secret: \(accessToken?.secret)")
