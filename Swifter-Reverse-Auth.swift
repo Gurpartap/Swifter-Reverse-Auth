@@ -42,7 +42,7 @@ public extension Swifter {
         
         self.client.post(path, baseURL: swifterApiURL, parameters: parameters, uploadProgress: nil, downloadProgress: nil, success: { data, response in
             let responseString = NSString(data: data, encoding: NSUTF8StringEncoding)!
-            success(authenticationHeader: responseString)
+            success(authenticationHeader: responseString as! String)
         }, failure: failure)
     }
     
@@ -60,7 +60,7 @@ public extension Swifter {
         
         self.client.post(path, baseURL: swifterApiURL, parameters: parameters, uploadProgress: nil, downloadProgress: nil, success: { data, response in
             let responseString = NSString(data: data, encoding: NSUTF8StringEncoding)
-            let accessToken = SwifterCredential.OAuthAccessToken(queryString: responseString!)
+            let accessToken = SwifterCredential.OAuthAccessToken(queryString: responseString as! String)
             success(accessToken: accessToken, response: response)
         }, failure: failure)
         
