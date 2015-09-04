@@ -42,7 +42,7 @@ public extension Swifter {
         
         self.client.post(path, baseURL: swifterApiURL, parameters: parameters, uploadProgress: nil, downloadProgress: nil, success: { data, response in
             let responseString = NSString(data: data, encoding: NSUTF8StringEncoding)!
-            success(authenticationHeader: responseString as! String)
+            success(authenticationHeader: responseString as String)
         }, failure: failure)
     }
     
@@ -59,8 +59,8 @@ public extension Swifter {
         parameters["x_reverse_auth_parameters"] = authenticationHeader
         
         self.client.post(path, baseURL: swifterApiURL, parameters: parameters, uploadProgress: nil, downloadProgress: nil, success: { data, response in
-            let responseString = NSString(data: data, encoding: NSUTF8StringEncoding)
-            let accessToken = SwifterCredential.OAuthAccessToken(queryString: responseString as! String)
+            let responseString = NSString(data: data, encoding: NSUTF8StringEncoding)!
+            let accessToken = SwifterCredential.OAuthAccessToken(queryString: responseString as String)
             success(accessToken: accessToken, response: response)
         }, failure: failure)
         
