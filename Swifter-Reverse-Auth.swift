@@ -37,12 +37,12 @@ public extension Swifter {
     public func postReverseOAuthTokenRequest(success: (authenticationHeader: String) -> Void, failure: FailureHandler?) {
         let path = "/oauth/request_token"
         
-        var parameters =  Dictionary<String, AnyObject>()
+        var parameters = Dictionary<String, Any>()
         parameters["x_auth_mode"] = "reverse_auth"
         
         self.client.post(path, baseURL: swifterApiURL, parameters: parameters, uploadProgress: nil, downloadProgress: nil, success: { data, response in
             let responseString = NSString(data: data, encoding: NSUTF8StringEncoding)!
-            success(authenticationHeader: responseString)
+            success(authenticationHeader: responseString as String)
         }, failure: failure)
     }
     
@@ -54,13 +54,13 @@ public extension Swifter {
         
         let consumerKey = authenticationHeaderDictionary["oauth_consumer_key"]!
         
-        var parameters = Dictionary<String, AnyObject>()
+        var parameters = Dictionary<String, Any>()
         parameters["x_reverse_auth_target"] = consumerKey
         parameters["x_reverse_auth_parameters"] = authenticationHeader
         
         self.client.post(path, baseURL: swifterApiURL, parameters: parameters, uploadProgress: nil, downloadProgress: nil, success: { data, response in
-            let responseString = NSString(data: data, encoding: NSUTF8StringEncoding)
-            let accessToken = SwifterCredential.OAuthAccessToken(queryString: responseString!)
+            let responseString = NSString(data: data, encoding: NSUTF8StringEncoding)!
+            let accessToken = SwifterCredential.OAuthAccessToken(queryString: responseString as String)
             success(accessToken: accessToken, response: response)
         }, failure: failure)
         
