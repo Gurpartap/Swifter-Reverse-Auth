@@ -33,55 +33,58 @@ let swifterApiURL = NSURL(string: "https://api.twitter.com")!
 
 
 public extension Swifter {
-    
-    public func postReverseOAuthTokenRequest(success: (authenticationHeader: String) -> Void, failure: FailureHandler?) {
+
+    public func postReverseOAuthTokenRequest(success: @escaping (_ authenticationHeader: String) -> Void, failure: FailureHandler?) {
         let path = "/oauth/request_token"
-        
+
         var parameters = Dictionary<String, Any>()
         parameters["x_auth_mode"] = "reverse_auth"
-        
-        self.client.post(path, baseURL: swifterApiURL, parameters: parameters, uploadProgress: nil, downloadProgress: nil, success: { data, response in
-            let responseString = NSString(data: data, encoding: NSUTF8StringEncoding)!
-            success(authenticationHeader: responseString as String)
-        }, failure: failure)
+
+        self.client.post(path, baseURL: .api, parameters: parameters, uploadProgress: nil, downloadProgress: nil, success: { data, response in
+            let responseString = NSString(data: data, encoding: String.Encoding.utf8.rawValue)!
+            success(responseString as String)
+            }, failure: failure)
     }
-    
-    public func postReverseAuthAccessTokenWithAuthenticationHeader(authenticationHeader: String, success: TokenSuccessHandler, failure: FailureHandler?) {
+
+    public func postReverseAuthAccessTokenWithAuthenticationHeader(authenticationHeader: String, success: @escaping TokenSuccessHandler, failure: FailureHandler?) {
         let path =  "/oauth/access_token"
-        
-        let shortHeader = authenticationHeader.stringByReplacingOccurrencesOfString("OAuth ", withString: "")
+
+        let shortHeader = authenticationHeader.replacingOccurrences(of: "OAuth ", with: "")
         let authenticationHeaderDictionary = shortHeader.parametersDictionaryFromCommaSeparatedParametersString()
-        
+
         let consumerKey = authenticationHeaderDictionary["oauth_consumer_key"]!
-        
+
         var parameters = Dictionary<String, Any>()
         parameters["x_reverse_auth_target"] = consumerKey
         parameters["x_reverse_auth_parameters"] = authenticationHeader
-        
-        self.client.post(path, baseURL: swifterApiURL, parameters: parameters, uploadProgress: nil, downloadProgress: nil, success: { data, response in
-            let responseString = NSString(data: data, encoding: NSUTF8StringEncoding)!
-            let accessToken = SwifterCredential.OAuthAccessToken(queryString: responseString as String)
-            success(accessToken: accessToken, response: response)
-        }, failure: failure)
-        
+
+        self.client.post(path, baseURL: .api, parameters: parameters, uploadProgress: nil, downloadProgress: nil, success: { data, response in
+            let responseString = NSString(data: data, encoding: String.Encoding.utf8.rawValue)!
+
+            let accessToken = Credential.OAuthAccessToken(queryString: responseString as String)
+//            let accessToken = SwifterCredential.OAuthAccessToken(queryString: responseString as String)
+            success(accessToken, response)
+            }
+            , failure: failure)
+
     }
-    
+
 }
 
 
 extension String {
-    
+
     func parametersDictionaryFromCommaSeparatedParametersString() -> Dictionary<String, String> {
         var dict = Dictionary<String, String>()
-        
-        for parameter in self.componentsSeparatedByString(", ") {
+
+        for parameter in self.components(separatedBy: ", ") {
             // transform k="v" into {'k':'v'}
-            let keyValue = parameter.componentsSeparatedByString("=")
+            let keyValue = parameter.components(separatedBy: "=")
             if keyValue.count != 2 {
                 continue
             }
-            
-            let value = keyValue[1].stringByReplacingOccurrencesOfString("\"", withString:"")
+
+            let value = keyValue[1].replacingOccurrences(of: "\"", with: "")
             dict.updateValue(value, forKey: keyValue[0])
         }
 
@@ -89,4 +92,3 @@ extension String {
     }
 
 }
-
